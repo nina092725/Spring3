@@ -1,35 +1,37 @@
 package com.example.demo.controller;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.ui.Model;
 
+import jakarta.servlet.ServletContext;
 
 @Controller
-@RequestMapping("/index")
+@RequestMapping("/ex16")
 public class Ex16Controller {
-    private List<User> userList = new ArrayList<>();
+
+    @Autowired
+    private ServletContext application;
 
     @RequestMapping("")
-    public String index(Model model) {
-        // 初期表示時、userListがnullの場合は初期化
+    public String index() {
+        @SuppressWarnings("unchecked")
+        List<User> userList = (List<User>) application.getAttribute("userList");
         if (userList == null) {
             userList = new ArrayList<>();
+            application.setAttribute("userList", userList);
         }
-        model.addAttribute("userList", userList);
         return "ex-16";
     }
 
     @RequestMapping("/post")
-    public String post(@RequestParam("name") String name,
-                       @RequestParam("comment") String comment,
-                       Model model) {
-
-        User user = new User(name, comment);
-        userList.add(0, user); // 先頭に追加
-        model.addAttribute("userList", userList);
+    public String post(String name, String comment) {
+        @SuppressWarnings("unchecked")
+        List<User> userList = (List<User>) application.getAttribute("userList");
+        userList.add(0, new User(name, comment));
         return "ex-16";
     }
 }
