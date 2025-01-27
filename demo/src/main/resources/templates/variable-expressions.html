@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    名前：<span th:text="${name}">dummy</span><br>
+    <h2>車の情報</h2>
+    <!-- 車の名前：<span th:text="${car.name}">dummy</span><br>
+    車のスピード：<span th:text="${car.speed}">dummy</span>
+    車のガソリン残量：<span th:text="${car.gas}">dummy</span> -->
+    
+
+    <!-- 上と同じ意味だがはじめにdivで囲んで選択すると個別でキー名を設定する必要がない -->
+    <div th:object="${car}">
+    車の名前：<span th:text="${name}">dummy</span><br>
+    車のスピード：<span th:text="${speed}">dummy</span>
+    車のガソリン残量：<span th:text="${gas}">dummy</span>
+
+    <form th:object="${car}">
+        車の名前：<input type="text" th:field="*{name}"><br>
+        車のスピード：<input type="text" th:field="*{speed}"><br>
+        車のガソリン残量：<input type="text" th:field="*{gas}"><br>
+
+    <h2 th:text="#{message}">車の情報</h2>
+    <form th:object="${car}">
+        <span th:text="#{message.name}"></span><input type="text" name="name">
+        <button th:text="#{message.buttonName}"></button>
+
+
+
+
+
+
+
+</div>
+    
+</body>
+</html>
